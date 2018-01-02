@@ -10,7 +10,6 @@ namespace WebServer
         requisições na URL passada e as enfileira na fila de execuções da ThreadPool.
 
         TODO: 
-            - Controlar o número de threads no threadpool;
             - Verificar até quando as requisições são enfileiradas
               antes de bloquear a thread principal.
             - Tirar dúvida sobre tratamento das requests.
