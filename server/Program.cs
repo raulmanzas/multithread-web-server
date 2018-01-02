@@ -1,68 +1,58 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace WebServer
 {
     class Program
     {
-        //#TODO: Carregar essas configurações de um arquivo externo?
-        const int NUMBER_OF_THREADS_INDEX = 0;
-        const int BUFFER_SIZE_INDEX = 1;
-        static string[] extensions = new string[] {".html", ".js", ".css"};
-        const string caminhoArquivos = "/";
+        private static Config _serverConfig;
+        private static Listener _server;
 
         static void Main(string[] args)
         {
-            var requestHandler = new RequestHandler(caminhoArquivos, extensions);
-            var server = new Listener("http://localhost:4043/", requestHandler.Handler);
             try
             {
-                ValidateParameters(args);
-                ConfigureThreadPool(args);
-                Console.WriteLine("Listening...");
-                server.Listen();
-                server.Finish();
+                if(args[0] == null)
+                    throw new ArgumentException("Arquivo de configuração é obrigatório!");
+                LoadConfigFile(args);
+                ConfigureThreadPool();
+                Run();
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                server.Finish();
+                _server.Finish();
                 return;
             }
         }
 
-        private static void ValidateParameters(string[] args)
-        {
-            if(args.Length != 2)
-                throw new ArgumentException("Você deve passar exatamente dois parâmetros!");
-            if(args[0] == null)
-                throw new ArgumentException("Número máximo de threads inválido!");
-            if(args[1] == null)
-                throw new ArgumentException("Tamanho de buffer inválido!");
+        private static void Run(){
+            var requestHandler = new RequestHandler(_serverConfig);
+            _server = new Listener(_serverConfig.BaseUrl, requestHandler.Handler);
+            Console.WriteLine("Aguardando requisições...");
+            _server.Listen();
+            _server.Finish();
         }
 
         /*
          Implementa as configurações básicas da thread pool: número de threads e
          e tamanho da fila de tarefas.
          */
-        private static void ConfigureThreadPool(string[] args)
+        private static void ConfigureThreadPool()
         {
-            int numberOfThreads = Int32.Parse(args[NUMBER_OF_THREADS_INDEX]);
+            //TODO: Verificação de configuração do tamanho do buffer
+            int numberOfThreads = _serverConfig.NumberOfThreads;
             ThreadPool.SetMaxThreads(numberOfThreads, 0);
         }
 
-        /*
-            Método que é injetado no servidor e é executado todas as vezes em que 
-            uma nova requisição é recebida. Trata e responde as requisições.
-        */
-        // public static void RequestHandler(HttpListenerContext context){
-        //     int thread = Thread.CurrentThread.ManagedThreadId;
-        //     string responseBody = $"<h1>It works! <br> Thread {thread} </h1>";
-        //     byte[] byteArray = Encoding.UTF8.GetBytes(responseBody);
-        //     context.Response.ContentLength64 = byteArray.Length;
-        //     context.Response.OutputStream.Write(byteArray, 0, byteArray.Length);
-        // }
+        private static void LoadConfigFile(string[] args)
+        {
+            var file = File.ReadAllText(args[0]);
+            _serverConfig = JsonConvert.DeserializeObject<Config>(file);
+        }
     }
 }

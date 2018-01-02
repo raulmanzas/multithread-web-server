@@ -12,11 +12,11 @@ namespace WebServer
         private string _basePath;
         private IList<string> _validExtensions;
 
-        public RequestHandler(string basePath, IList<string> validExtensions)
+        public RequestHandler(Config configObj)
         {
-            ValidateExtensions(validExtensions);
-            _basePath = String.IsNullOrEmpty(basePath) ? "/" : basePath;
-            _validExtensions = validExtensions;
+            ValidateExtensions(configObj.ValidExtensions);
+            _basePath = configObj.StaticFilesDirectory;
+            _validExtensions = configObj.ValidExtensions;
         }
 
         public void Handler(HttpListenerContext context)
@@ -33,8 +33,8 @@ namespace WebServer
         private byte[] LoadFile(Uri path)
         {
             //TODO: Validar a extensão do arquivo solicitado
-            string localPath = Path.Combine(_basePath, path.AbsolutePath);
-            return File.ReadAllBytes(localPath.Remove(0,1));
+            string localPath = _basePath + path.AbsolutePath;
+            return File.ReadAllBytes(localPath);
         }
 
         private void ValidateExtensions(IList<string> extensions)
