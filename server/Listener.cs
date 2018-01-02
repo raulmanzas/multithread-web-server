@@ -8,6 +8,12 @@ namespace WebServer
     /*
         Classe que implementa um servidor HTTP. Após instanciada, fica esperando por 
         requisições na URL passada e as enfileira na fila de execuções da ThreadPool.
+
+        TODO: 
+            - Controlar o número de threads no threadpool;
+            - Verificar até quando as requisições são enfileiradas
+              antes de bloquear a thread principal.
+            - Tirar dúvida sobre tratamento das requests.
      */
     class Listener
     {
@@ -27,6 +33,7 @@ namespace WebServer
         /*
             Fica em loop aguardando requisições e as enfileirando para que as threads
             da ThreadPool possam trata-las através da delegate injetada.
+            Ref: https://msdn.microsoft.com/pt-br/library/system.threading.threadpool(v=vs.110).aspx
         */
         public void Listen(){
             _server.Start();
@@ -38,7 +45,6 @@ namespace WebServer
                 {
                     _requestHandler(requestContext);
                 });
-                
             }
         }
 
