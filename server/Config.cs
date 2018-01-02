@@ -9,5 +9,18 @@ namespace WebServer
         public string StaticFilesDirectory { get; set; }
         public string[] ValidExtensions { get; set; }
         public string BaseUrl { get; set; }
+        
+        public void Validate()
+        {
+            if(NumberOfThreads == 0)
+                throw new Exception("O número de threads deve ser > 0");
+            if(String.IsNullOrEmpty(StaticFilesDirectory))
+                throw new Exception("Diretório de arquivos estáticos é inválido!");
+            if(ValidExtensions.Length == 0)
+                throw new Exception("Extensões permitidas inválidas!");
+            if(String.IsNullOrEmpty(BaseUrl))
+                throw new Exception("URL de base é inválida!");
+        }
     }
+
 }

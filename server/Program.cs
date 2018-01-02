@@ -53,6 +53,7 @@ namespace WebServer
         {
             var file = File.ReadAllText(args[0]);
             _serverConfig = JsonConvert.DeserializeObject<Config>(file);
+            _serverConfig.Validate();
         }
     }
 }
