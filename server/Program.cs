@@ -7,12 +7,16 @@ namespace WebServer
 {
     class Program
     {
+        //#TODO: Carregar essas configurações de um arquivo externo?
         const int NUMBER_OF_THREADS_INDEX = 0;
         const int BUFFER_SIZE_INDEX = 1;
+        static string[] extensions = new string[] {".html", ".js", ".css"};
+        const string caminhoArquivos = "/";
 
         static void Main(string[] args)
         {
-            var server = new Listener("http://localhost:4043/", RequestHandler);
+            var requestHandler = new RequestHandler(caminhoArquivos, extensions);
+            var server = new Listener("http://localhost:4043/", requestHandler.Handler);
             try
             {
                 ValidateParameters(args);
@@ -53,12 +57,12 @@ namespace WebServer
             Método que é injetado no servidor e é executado todas as vezes em que 
             uma nova requisição é recebida. Trata e responde as requisições.
         */
-        public static void RequestHandler(HttpListenerContext context){
-            int thread = Thread.CurrentThread.ManagedThreadId;
-            string responseBody = $"<h1>It works! <br> Thread {thread} </h1>";
-            byte[] byteArray = Encoding.UTF8.GetBytes(responseBody);
-            context.Response.ContentLength64 = byteArray.Length;
-            context.Response.OutputStream.Write(byteArray, 0, byteArray.Length);
-        }
+        // public static void RequestHandler(HttpListenerContext context){
+        //     int thread = Thread.CurrentThread.ManagedThreadId;
+        //     string responseBody = $"<h1>It works! <br> Thread {thread} </h1>";
+        //     byte[] byteArray = Encoding.UTF8.GetBytes(responseBody);
+        //     context.Response.ContentLength64 = byteArray.Length;
+        //     context.Response.OutputStream.Write(byteArray, 0, byteArray.Length);
+        // }
     }
 }
