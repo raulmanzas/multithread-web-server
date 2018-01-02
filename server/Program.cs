@@ -12,17 +12,19 @@ namespace WebServer
 
         static void Main(string[] args)
         {
+            var server = new Listener("http://localhost:4043/", RequestHandler);
             try
             {
                 ValidateParameters(args);
                 ConfigureThreadPool(args);
-                var server = new Listener("http://localhost:4043/", RequestHandler);
-                server.Listen();
                 Console.WriteLine("Listening...");
+                server.Listen();
+                server.Finish();
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                server.Finish();
                 return;
             }
         }
