@@ -15,7 +15,6 @@ namespace WebServer
 
         public RequestHandler(Config configObj)
         {
-            ValidateExtensions(configObj.ValidExtensions);
             _basePath = configObj.StaticFilesDirectory;
             _validExtensions = configObj.ValidExtensions;
         }
@@ -56,16 +55,6 @@ namespace WebServer
             if(_validExtensions.Any(ext => localPath.Contains(ext)))
                 return File.ReadAllBytes(localPath);
             throw new Exception("Tipo de arquivo solicitado não é permitido.");
-        }
-
-        private void ValidateExtensions(IList<string> extensions)
-        {
-            if(!extensions.Any())
-                throw new ArgumentException("Sem extensões válidas!");
-            if(extensions.Any(extensao => extensao.EndsWith("*")))
-                throw new ArgumentException("Extensão '.*' inválida!");
-            if(extensions.Any(extensao => extensao.Contains("../")))
-                throw new ArgumentException("Extensão contém '../'!");
         }
     }
 }

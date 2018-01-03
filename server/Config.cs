@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace WebServer
 {
@@ -18,6 +19,8 @@ namespace WebServer
                 throw new Exception("Diretório de arquivos estáticos é inválido!");
             if(ValidExtensions.Length == 0)
                 throw new Exception("Extensões permitidas inválidas!");
+            if(ValidExtensions.Any(extensao => extensao.EndsWith("*")))
+                throw new ArgumentException("Extensão '.*' inválida!");
             if(String.IsNullOrEmpty(BaseUrl))
                 throw new Exception("URL de base é inválida!");
         }
