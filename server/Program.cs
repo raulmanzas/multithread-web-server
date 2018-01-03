@@ -16,7 +16,7 @@ namespace WebServer
         {
             try
             {
-                if(args[0] == null)
+                if(args.Length == 0)
                     throw new ArgumentException("Arquivo de configuração é obrigatório!");
                 LoadConfigFile(args);
                 ConfigureThreadPool();
@@ -25,7 +25,7 @@ namespace WebServer
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                _server.Finish();
+                _server?.Finish();
                 return;
             }
         }
