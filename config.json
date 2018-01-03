@@ -3,5 +3,5 @@
     "staticFilesDirectory": "./../static",
     "numberOfThreads": 4,
     "bufferSize": 4,
-    "baseUrl": "http://localhost:5007/"
+    "baseUrl": "http://localhost:5000/"
 }
