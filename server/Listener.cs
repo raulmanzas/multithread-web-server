@@ -49,6 +49,9 @@ namespace WebServer
 
         public void Finish()
         {
+#if DEBUG
+            Console.WriteLine("Finalizando servidor...");
+#endif
             _server.Stop();
             _server.Close();
         }
