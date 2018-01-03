@@ -37,6 +37,10 @@ namespace WebServer
             }
         }
 
+        /*
+            Responde com código de erro ao cliente quando alguma requisição
+            não pode ser tratada e respondida naturalmente.
+        */
         private void HandleError(HttpListenerResponse response, Exception e)
         {
             if(e is FileNotFoundException)

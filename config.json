@@ -1,5 +1,5 @@
 {
-    "validExtensions": [".html", ".js", ".css"],
+    "validExtensions": [".html", ".js", ".css", ".jpg", ".gif", ".png"],
     "staticFilesDirectory": "./../static",
     "numberOfThreads": 4,
     "bufferSize": 4,

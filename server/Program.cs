@@ -44,11 +44,16 @@ namespace WebServer
          */
         private static void ConfigureThreadPool()
         {
-            //TODO: Verificação de configuração do tamanho do buffer
             int numberOfThreads = _serverConfig.NumberOfThreads;
             ThreadPool.SetMaxThreads(numberOfThreads, 0);
+            ThreadPool.SetMinThreads(numberOfThreads, 0);
         }
 
+        /*
+            Carrega o arquivo responsável pelas configurações de funcionamento
+            do servidor. Cada configuração possível é uma propriedade da classe
+            Config.
+        */
         private static void LoadConfigFile(string[] args)
         {
             var file = File.ReadAllText(args[0]);

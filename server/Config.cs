@@ -3,12 +3,22 @@ using System.Linq;
 
 namespace WebServer
 {
+    /*
+        Objeto que controla as configurações de funcionamento do servidor.
+     */
     class Config
     {
+        // Número de threads disponíveis no threadpool.
         public int NumberOfThreads { get; set; }
         public int BufferSize { get; set; }
+        
+        // Diretório raíz que o servidor usará para buscar arquivos requisitados.
         public string StaticFilesDirectory { get; set; }
+
+        // Quais tipos de arquivos o servidor pode enviar?
         public string[] ValidExtensions { get; set; }
+
+        // Url de base para comunicação com o servidor.
         public string BaseUrl { get; set; }
         
         public void Validate()
