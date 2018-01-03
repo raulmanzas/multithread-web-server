@@ -11,7 +11,7 @@ Acesse o diretório */server* do projeto e, pelo terminal, execute:
 
 `$ dotnet run ../config.json`
 
-Verifique que está funcionando acessando "http://localhost:5000/" ou qualquer que seja a URL base que você definiu no arquivo *config.json*.
+Verifique que está funcionando acessando "http://localhost:5000/test.html" ou qualquer que seja a URL base que você definiu no arquivo *config.json*.
 
 Para customizar o funcionamento do servidor, basta alterar o arquivo de configurações *config.json*.
 
