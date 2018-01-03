@@ -33,10 +33,10 @@ namespace WebServer
         private static void Run(){
             var requestHandler = new RequestHandler(_serverConfig);
             _server = new Listener(_serverConfig.BaseUrl, requestHandler.Handler);
-            _server.Listen();
 #if DEBUG
             Console.WriteLine("Aguardando requisições...");
 #endif
+            _server.Listen();
         }
 
         /*
